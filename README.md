@@ -1,72 +1,143 @@
-# PDF Intelligence System with Retrieval Augmented Generation (RAG)
+# ChatPDF - Interactive PDF Document Chat
 
-## Overview
+A Streamlit-based web application that allows users to chat with their PDF documents using AI. The application uses LangChain, OpenAI, and FAISS to create an interactive chat interface for PDF documents.
 
-The goal of this project is to create a user-centric and intelligent system that enhances information retrieval from PDF documents through natural language queries. The project focuses on streamlining the user experience by developing an intuitive interface, allowing users to interact with PDF content using language they are comfortable with. To achieve this, we leverage the Retrieval Augmented Generation (RAG) methodology introduced by Meta AI researchers.
+## Features
 
+- Upload multiple PDF documents
+- Interactive chat interface
+- Document context-aware responses
+- Support for large PDF files (up to 10MB each)
+- Modern and responsive UI
+- Error handling and user feedback
+- Session management
 
-https://github.com/ArmaanSeth/ChatPDF/assets/99117431/2500f636-c66d-46ad-bb68-1d55f04ce753
+## Prerequisites
 
+- Python 3.8 or higher
+- OpenAI API key
+- Git (for deployment)
 
-## Retrieval Augmented Generation (RAG)
+## Installation
 
-### Introduction
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/ChatPDF.git
+cd ChatPDF
+```
 
-RAG is a method designed to address knowledge-intensive tasks, particularly in information retrieval. It combines an information retrieval component with a text generator model to achieve adaptive and efficient knowledge processing. Unlike traditional methods that require retraining the entire model for knowledge updates, RAG allows for fine-tuning and modification of internal knowledge without extensive retraining.
+2. Create a virtual environment and activate it:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-### Workflow
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-1. **Input**: RAG takes multiple pdf as input.
-2. **VectoreStore**: The pdf's are then converted to vectorstore using FAISS and all-MiniLM-L6-v2 Embeddings model from Hugging Face.
-3. **Memory**: Conversation buffer memory is used to maintain a track of previous conversation which are fed to the llm model along with the user query.
-4. **Text Generation with GPT-3.5 Turbo**: The embedded input is fed to the GPT-3.5 Turbo model from the OpenAI API, which produces the final output.
-5. **User Interface**: Streamlit is used to create the interface for the application.
+4. Create a `.env` file in the root directory and add your OpenAI API key:
+```
+OPENAI_API_KEY=your_api_key_here
+```
 
-### Benefits
+## Running Locally
 
-- **Adaptability**: RAG adapts to situations where facts may evolve over time, making it suitable for dynamic knowledge domains.
-- **Efficiency**: By combining retrieval and generation, RAG provides access to the latest information without the need for extensive model retraining.
-- **Reliability**: The methodology ensures reliable outputs by leveraging both retrieval-based and generative approaches.
+1. Start the Streamlit app:
+```bash
+streamlit run app.py
+```
 
-## Project Features
+2. Open your browser and navigate to `http://localhost:8501`
 
-1. **User-friendly Interface**: An intuitive interface designed to accommodate natural language queries, simplifying the interaction with PDF documents.
+## Deployment
 
-2. **Seamless Navigation**: The system streamlines information retrieval, reducing complexity and enhancing the overall user experience.
+### Option 1: Streamlit Cloud (Recommended)
 
-## Getting Started
+1. Push your code to a GitHub repository
+2. Go to [Streamlit Cloud](https://share.streamlit.io/)
+3. Sign in with your GitHub account
+4. Click "New app"
+5. Select your repository, branch, and main file (app.py)
+6. Add your environment variables (OPENAI_API_KEY)
+7. Deploy!
 
-To use the PDF Intelligence System:
+### Option 2: Heroku
 
-1. Clone the repository to your local machine.
-   ```bash
-   git clone https://github.com/ArmaanSeth/ChatPDF.git
-   ```
+1. Create a `Procfile` in the root directory:
+```
+web: streamlit run app.py
+```
 
-2. Install dependencies.
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. Create a `runtime.txt` file:
+```
+python-3.8.18
+```
 
-3. Run the application.
-   ```bash
-   streamlit run app.py
-   ```
+3. Deploy to Heroku:
+```bash
+heroku create your-app-name
+git push heroku main
+```
 
-4. Open your browser and navigate to `http://localhost:8000` to access the user interface.
+4. Set your environment variables:
+```bash
+heroku config:set OPENAI_API_KEY=your_api_key_here
+```
+
+### Option 3: Docker
+
+1. Create a `Dockerfile`:
+```dockerfile
+FROM python:3.8-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "app.py"]
+```
+
+2. Build and run the container:
+```bash
+docker build -t chatpdf .
+docker run -p 8501:8501 chatpdf
+```
+
+## Usage
+
+1. Upload one or more PDF documents using the sidebar
+2. Click "Process" to analyze the documents
+3. Start asking questions about your documents
+4. The AI will provide context-aware responses based on your documents
+
+## Limitations
+
+- Maximum file size: 10MB per PDF
+- Maximum pages: 100 pages total
+- Supported file format: PDF only
 
 ## Contributing
 
-We welcome contributions to enhance the PDF Intelligence System. If you're interested in contributing, please follow our [Contribution Guidelines](CONTRIBUTING.md).
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
-This project is licensed under the [Apache License](LICENSE).
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
-We would like to express our gratitude to the Hugging Face community for the all-MiniLM-L6-v2 Embeddings model, and OpenAI for providing the GPT-3.5 Turbo model through their API.
-
----
-
-Feel free to explore and enhance the capabilities of the PDF Intelligence System. Happy querying!
+- [Streamlit](https://streamlit.io/)
+- [LangChain](https://www.langchain.com/)
+- [OpenAI](https://openai.com/)
+- [FAISS](https://github.com/facebookresearch/faiss)
